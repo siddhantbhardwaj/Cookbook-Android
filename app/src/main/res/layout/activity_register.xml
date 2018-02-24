@@ -18,7 +18,7 @@
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CookBook"
+            android:text="@string/app_name"
             android:layout_gravity="center"
             android:textSize="30dp"
             android:layout_marginBottom="40dp"/>
@@ -30,7 +30,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:hint="Name"
+            android:hint="@string/name"
             android:inputType="text" />
 
         <EditText
@@ -40,7 +40,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -50,7 +50,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
 
         <Button
@@ -60,7 +60,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:text="Sign Up"
+            android:text="@string/signup"
             android:layout_gravity="center"/>
 
         <LinearLayout
@@ -73,14 +73,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an Account?" />
+                android:text="@string/alreadyHaveAccount" />
             <TextView
                 android:id="@+id/linkSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:onClick="goToSignIn"
-                android:text="Sign In"
+                android:text="@string/signin"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 

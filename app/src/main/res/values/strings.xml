@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Cookbook</string>
+
+    <!-- Shared -->
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signup">Sign Up</string>
+    <string name="signin">Sign In</string>
+
+    <!-- Login -->
+    <string name="dontHaveAccount">Don\'t have an Account?</string>
+
+    <!-- Register -->
+    <string name="alreadyHaveAccount">Already have an Account?</string>
 </resources>
