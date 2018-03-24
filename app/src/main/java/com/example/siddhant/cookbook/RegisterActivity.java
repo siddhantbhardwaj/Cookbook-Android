@@ -75,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError error) {
+//                      map through each of error.errorBody.errors, and append inline errors
                         Toast.makeText(getApplicationContext(), "Some error", Toast.LENGTH_SHORT).show();
                     }
                 });

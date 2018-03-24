@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         Button btnSignin = (Button) findViewById(R.id.btnSignin);
 
-        btnSignin.setOnClickListener(new View.OnClickListener() {
+        btnSignin   .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login(email.getText().toString(), password.getText().toString());
