@@ -105,6 +105,5 @@ public class RecipiesActivity extends BaseActivity {
     public void goToCreateNew(View view) {
         Intent intent = new Intent(this, NewRecipie.class);
         startActivity(intent);
-        finish();
     }
 }

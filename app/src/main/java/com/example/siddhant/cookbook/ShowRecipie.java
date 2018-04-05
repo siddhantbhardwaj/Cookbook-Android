@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 public class ShowRecipie extends AppCompatActivity {
     TextView title, description, ingredients, instruction, link;
     private int recipie_id;
+    private static RatingBar ratingBar;
 
     // Code referred from https://stackoverflow.com/a/31387193/2974803
     @Override
@@ -54,6 +56,7 @@ public class ShowRecipie extends AppCompatActivity {
         instruction = (TextView) findViewById(R.id.instruction);
         description = (TextView) findViewById(R.id.description);
         ingredients = (TextView) findViewById(R.id.ingredients);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         link = (TextView) findViewById(R.id.link);
 
         Bundle bundle = getIntent().getExtras();
@@ -62,6 +65,45 @@ public class ShowRecipie extends AppCompatActivity {
             getRecipie(this.recipie_id);
         }
 
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                updateRating(rating);
+            }
+        });
+    }
+
+    public void updateRating(float rating) {
+        final User user = new User(this);
+        JSONObject recipie = new JSONObject();
+        JSONObject recipieInfo = new JSONObject();
+        try {
+            recipieInfo.put("rating", rating);
+            recipie.put("recipie", recipieInfo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = Config.getInstance().getApiUrl() + "/recipies/" + this.recipie_id;
+        AndroidNetworking.patch(url)
+                .addHeaders("X-Cookbook-Auth", user.getAuthToken())
+                .addJSONObjectBody(recipie)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(ShowRecipie.this, "Rating of recipie is: " + response.get("rating").toString(), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(ANError error) {
+//                      map through each of error.errorBody.errors, and append inline errors
+                        Toast.makeText(getApplicationContext(), "Some error", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void getRecipie(Integer id) {
@@ -90,6 +132,7 @@ public class ShowRecipie extends AppCompatActivity {
             instruction.setText(response.get("instruction").toString());
             ingredients.setText(response.get("ingredients").toString());
             link.setText(response.get("link").toString());
+            ratingBar.setRating(Float.parseFloat(response.get("rating").toString()));
         } catch (JSONException e) {
 
         }
