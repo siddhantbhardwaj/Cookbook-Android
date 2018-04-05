@@ -14,4 +14,15 @@
 
     <!-- Register -->
     <string name="alreadyHaveAccount">Already have an Account?</string>
+
+    <!-- Show Recipie -->
+    <string name="instructions">Instructions:</string>
+    <string name="ingredients">Ingredients:</string>
+
+    <!-- Menubar -->
+    <string name="edit">Edit Recipie</string>
+    <string name="delete">Delete Recipie</string>
+
+    <!-- Register -->
+
 </resources>

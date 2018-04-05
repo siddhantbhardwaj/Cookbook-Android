@@ -33,7 +33,6 @@ public class RecipiesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipies);
-
         loadRecipies();
     }
 
@@ -57,7 +56,8 @@ public class RecipiesActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(RecipiesActivity.this, ShowRecipie.class);
-                intent.putExtra("id", recipiesListView.getItemAtPosition(position).toString());
+                Recipie r = (Recipie) recipiesListView.getItemAtPosition(position);
+                intent.putExtra("id", r.getId());
                 startActivity(intent);
             }
         });
@@ -87,5 +87,6 @@ public class RecipiesActivity extends BaseActivity {
     public void goToCreateNew(View view) {
         Intent intent = new Intent(this, NewRecipie.class);
         startActivity(intent);
+        finish();
     }
 }
