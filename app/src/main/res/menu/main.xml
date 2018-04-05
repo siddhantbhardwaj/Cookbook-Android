@@ -5,4 +5,11 @@
     <item android:id="@+id/action_signout"
         android:title="@string/signout"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/search_badge"
+        android:title="Search Recipies"
+        android:icon="@android:drawable/ic_menu_search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always"
+        />
 </menu>

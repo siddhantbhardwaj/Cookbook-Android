@@ -3,10 +3,12 @@ package com.example.siddhant.cookbook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
@@ -19,13 +21,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class RecipiesActivity extends BaseActivity {
-    private ArrayAdapter<String> itemsAdapter;
+    private RecipieListAdapter recipieListAdapter;
 
     // Code referred from https://stackoverflow.com/a/31387193/2974803
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Code referred from https://www.youtube.com/watch?v=4RfvmrelFzE
+        MenuItem menuItem = menu.findItem(R.id.search_badge);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recipieListAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -39,18 +57,19 @@ public class RecipiesActivity extends BaseActivity {
     public void renderRecipies(JSONArray recipies) {
         final ListView recipiesListView;
         recipiesListView = findViewById(R.id.recipies);
-        final ArrayList<Recipie> recipiesList = new ArrayList<>();
+
+        ArrayList<Recipie> recipiesList = new ArrayList<>();
         for(int i = 0; i < recipies.length(); i++){
             try {
                 JSONObject recipie = recipies.getJSONObject(i);
                 Recipie r = new Recipie(recipie.getInt("id"), recipie.getString("title"), recipie.getString("description"), "", "", "");
-                RecipieListAdapter recipieListAdapter = new RecipieListAdapter(RecipiesActivity.this, R.layout.recipie_item, recipiesList);
-                recipiesListView.setAdapter(recipieListAdapter);
                 recipiesList.add(r);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        recipieListAdapter = new RecipieListAdapter(RecipiesActivity.this, R.layout.recipie_item, recipiesList);
+        recipiesListView.setAdapter(recipieListAdapter);
 
         recipiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,7 +85,6 @@ public class RecipiesActivity extends BaseActivity {
     public void loadRecipies() {
         final User user = new User(this);
 
-        // fetch recipies of this user and itemsAdapter.add(item);
         String url = Config.getInstance().getApiUrl() + "/recipies";
         AndroidNetworking
                 .get(url)
