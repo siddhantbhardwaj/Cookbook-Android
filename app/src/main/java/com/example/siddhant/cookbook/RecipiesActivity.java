@@ -1,11 +1,10 @@
 package com.example.siddhant.cookbook;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -39,13 +38,13 @@ public class RecipiesActivity extends BaseActivity {
     }
 
     public void renderRecipies(JSONArray recipies) {
-        ListView recipiesListView;
+        final ListView recipiesListView;
         recipiesListView = findViewById(R.id.recipies);
         final ArrayList<Recipie> recipiesList = new ArrayList<>();
         for(int i = 0; i < recipies.length(); i++){
             try {
                 JSONObject recipie = recipies.getJSONObject(i);
-                Recipie r = new Recipie(recipie.getString("title"), recipie.getString("description"), "", "");
+                Recipie r = new Recipie(recipie.getInt("id"), recipie.getString("title"), recipie.getString("description"), "", "", "");
                 RecipieListAdapter recipieListAdapter = new RecipieListAdapter(RecipiesActivity.this, R.layout.recipie_item, recipiesList);
                 recipiesListView.setAdapter(recipieListAdapter);
                 recipiesList.add(r);
@@ -53,6 +52,15 @@ public class RecipiesActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
+
+        recipiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(RecipiesActivity.this, ShowRecipie.class);
+                intent.putExtra("id", recipiesListView.getItemAtPosition(position).toString());
+                startActivity(intent);
+            }
+        });
     }
 
     public void loadRecipies() {
@@ -74,5 +82,10 @@ public class RecipiesActivity extends BaseActivity {
                     public void onError(ANError anError) {
                     }
                 });
+    }
+
+    public void goToCreateNew(View view) {
+        Intent intent = new Intent(this, NewRecipie.class);
+        startActivity(intent);
     }
 }

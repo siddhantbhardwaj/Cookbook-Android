@@ -25,13 +25,14 @@ public class RecipieListAdapter extends ArrayAdapter<Recipie> {
         mResource = resource;
     }
 
-    @NonNull
     @Override
+    @NonNull
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Integer id = getItem(position).getId();
         String title = getItem(position).getTitle();
         String description = getItem(position).getDescription();
 
-        Recipie recipie = new Recipie(title, description, "", "");
+        Recipie recipie = new Recipie(id, title, description, "", "", "");
         LayoutInflater inflater = LayoutInflater.from(getContext());
         convertView = inflater.inflate(mResource, parent, false);
 

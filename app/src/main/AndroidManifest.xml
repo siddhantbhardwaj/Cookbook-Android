@@ -26,7 +26,13 @@
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".RecipiesActivity"></activity>
+        <activity android:name=".RecipiesActivity" />
+        <activity
+            android:name=".NewRecipie"
+            android:parentActivityName=".RecipiesActivity" />
+        <activity
+            android:name=".ShowRecipie"
+            android:parentActivityName=".RecipiesActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.siddhant.cookbook.NewRecipie">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="Title"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="15dp"
+            android:hint="Ingredients" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_marginBottom="15dp"
+            android:hint="Description" />
+
+        <EditText
+            android:id="@+id/instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:inputType="textMultiLine"
+            android:hint="Instructions" />
+
+        <EditText
+            android:id="@+id/link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="15dp"
+            android:hint="Link" />
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Recipie" />
+    </LinearLayout>
+
+
+</RelativeLayout>
