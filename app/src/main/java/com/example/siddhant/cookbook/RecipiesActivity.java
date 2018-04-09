@@ -70,6 +70,7 @@ public class RecipiesActivity extends BaseActivity {
         }
         recipieListAdapter = new RecipieListAdapter(RecipiesActivity.this, R.layout.recipie_item, recipiesList);
         recipiesListView.setAdapter(recipieListAdapter);
+        recipiesListView.setEmptyView(findViewById(R.id.emptyElement));
 
         recipiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

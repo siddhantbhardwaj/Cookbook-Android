@@ -12,8 +12,11 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class NewRecipie extends AppCompatActivity {
     EditText title, instruction, ingredients, link, description;
@@ -84,8 +87,14 @@ public class NewRecipie extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError error) {
-//                      map through each of error.errorBody.errors, and append inline errors
-                        Toast.makeText(getApplicationContext(), "Some error", Toast.LENGTH_SHORT).show();
+                        String str = error.getErrorBody();
+                        JSONObject errors = null;
+                        try {
+                            errors = new JSONObject(str);
+                            showInlineErrors(errors);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -113,7 +122,6 @@ public class NewRecipie extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError error) {
-//                      map through each of error.errorBody.errors, and append inline errors
                         Toast.makeText(getApplicationContext(), "Some error", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -128,6 +136,44 @@ public class NewRecipie extends AppCompatActivity {
             link.setText(recipie.get("link").toString());
         } catch (JSONException e) {
 
+        }
+    }
+
+    public void showInlineErrors(JSONObject errors) {
+        try {
+            JSONObject json = errors.getJSONObject("errors");
+            Iterator<String> iter = json.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    JSONArray jsonArray = (JSONArray) json.get(key);
+                    String result = jsonArray.join(",");
+                    switch(key) {
+                        case "title":
+                            title.setError(result);
+                            break;
+                        case "description":
+                            description.setError(result);
+                            break;
+                        case "ingredients":
+                            ingredients.setError(result);
+                            break;
+                        case "instruction":
+                            instruction.setError(result);
+                            break;
+                        case "link":
+                            link.setError(result);
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (JSONException e) {
+                    // Something went wrong!
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

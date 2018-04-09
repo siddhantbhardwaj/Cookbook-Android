@@ -14,15 +14,24 @@
 
     <!-- Register -->
     <string name="alreadyHaveAccount">Already have an Account?</string>
+    <string name="createAccount">Create your Account</string>
 
     <!-- Show Recipie -->
-    <string name="instructions">Instructions:</string>
-    <string name="ingredients">Ingredients:</string>
+    <string name="noRecipiesText">No recipies yet! Click the + button to create one.</string>
+    <string name="instructionsLabel">Instructions:</string>
+    <string name="ingredientsLabel">Ingredients:</string>
+
+    <!-- New/Edit Recipie -->
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
+    <string name="link">Link</string>
+    <string name="saveRecipie">Save Recipie</string>
 
     <!-- Menubar -->
     <string name="edit">Edit Recipie</string>
     <string name="delete">Delete Recipie</string>
 
-    <!-- Register -->
 
 </resources>

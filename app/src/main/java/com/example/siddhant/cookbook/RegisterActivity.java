@@ -1,9 +1,14 @@
 package com.example.siddhant.cookbook;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,8 +17,13 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.Iterator;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText name, email, password;
@@ -36,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void signup(String name, String email, String password) {
+    private void signup(final String name, String email, String password) {
         String url = Config.getInstance().getApiUrl() + "/users";
         JSONObject user = new JSONObject();
         JSONObject userInfo = new JSONObject();
@@ -75,8 +85,14 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onError(ANError error) {
-//                      map through each of error.errorBody.errors, and append inline errors
-                        Toast.makeText(getApplicationContext(), "Some error", Toast.LENGTH_SHORT).show();
+                        String str = error.getErrorBody();
+                        JSONObject errors = null;
+                        try {
+                            errors = new JSONObject(str);
+                            showInlineErrors(errors);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -85,5 +101,37 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void showInlineErrors(JSONObject errors) {
+        try {
+            JSONObject json = errors.getJSONObject("errors");
+            Iterator<String> iter = json.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    JSONArray jsonArray = (JSONArray) json.get(key);
+                    String result = jsonArray.join(",");
+                    switch(key) {
+                        case "name":
+                            name.setError(result);
+                            break;
+                        case "email":
+                            email.setError(result);
+                            break;
+                        case "password":
+                            password.setError(result);
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (JSONException e) {
+                    // Something went wrong!
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
